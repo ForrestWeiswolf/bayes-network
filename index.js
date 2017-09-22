@@ -1,15 +1,15 @@
 let els = []
-for (var i = 1; i < 7; i++) {
+for (var i = 1; i < 9; i++) {
   for (var j = 1; j < i; j++) {
-    if (i % j === 1) {
+    if (i % (j + 1) === 0) {
       els.push({ 
-        data: { id: String(i) + String(j), source: String(i), target: String(j) } 
+        data: { id: String(1 / i) + String(1 / j), source: '1/' + i, target: '1/' + j } 
       })
     }
   }
 
   els.push({
-    data: { id: i, num: i, prevVal: null }
+    data: { id: '1/' + i, num: 1 / i, prevVal: null }
   })
 }
 
@@ -21,7 +21,7 @@ var cy = cytoscape({
       selector: 'node',
       style: {
         'background-color': '#555',
-        'label': 'data(num)'
+        'label': (ele) => String(ele.data('num') * 100).slice(0, 4) + '%'
       }
     },
 
@@ -30,14 +30,14 @@ var cy = cytoscape({
       style: {
         'width': 3,
         'curve-style': 'bezier',
-        'line-color': '#ccc',
-        'target-arrow-color': '#ccc',
+        'line-color': '#777',
+        'target-arrow-color': '#777',
         'target-arrow-shape': 'triangle'
       }
     }
   ],
   layout: {
-    name: 'breadthfirst',
+    name: 'circle',
     rows: 3,
     directed: true
   }
