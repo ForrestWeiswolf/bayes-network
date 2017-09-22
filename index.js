@@ -3,13 +3,13 @@ for (var i = 1; i < 9; i++) {
   for (var j = 1; j < i; j++) {
     if (i % (j + 1) === 0) {
       els.push({ 
-        data: { id: String(1 / i) + String(1 / j), source: '1/' + i, target: '1/' + j } 
+        data: { id: String(i) + String(j), source: i, target: j } 
       })
     }
   }
 
   els.push({
-    data: { id: '1/' + i, num: 1 / i, prevVal: null }
+    data: { id: i, num: 1 / i, prevVal: null }
   })
 }
 
@@ -20,8 +20,11 @@ var cy = cytoscape({
     {
       selector: 'node',
       style: {
-        'background-color': '#555',
-        'label': (ele) => String(ele.data('num') * 100).slice(0, 4) + '%'
+        'background-color': 'mapData(num, 0, 1, black, lightgreen)',
+        'label': (ele) => {
+          var prob = String(ele.data('num') * 100).slice(0, 4)
+          return `${ele.data('id')}: ${prob}%`
+        }
       }
     },
 
