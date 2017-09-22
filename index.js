@@ -1,7 +1,7 @@
 let els = []
 for (var i = 1; i < 7; i++) {
   for (var j = 1; j < i; j++) {
-    if (i % (j + 1) === 0) {
+    if (i % j === 1) {
       els.push({ 
         data: { id: String(i) + String(j), source: String(i), target: String(j) } 
       })
@@ -9,7 +9,7 @@ for (var i = 1; i < 7; i++) {
   }
 
   els.push({
-    data: { id: i, nums: [i], prevVal: null }
+    data: { id: i, num: i, prevVal: null }
   })
 }
 
@@ -21,7 +21,7 @@ var cy = cytoscape({
       selector: 'node',
       style: {
         'background-color': '#555',
-        'label': 'data(nums)'
+        'label': 'data(num)'
       }
     },
 
@@ -44,38 +44,26 @@ var cy = cytoscape({
 });
 
 function propagateFn(cyto, startNode, newVal, func) {
-  startNode.data('nums', newVal)
+  // startNode.data('prevVal', startNode.data('num'))
+  // startNode.data('num', newVal)
+  // console.log(startNode.data('prevVal'), startNode.data('num'))
 
   cyto.elements().bfs({
     root: startNode,
-    visit: function(node, edgeTraversed, prevNode, index){
-
-      var len = node.data('nums').length
-      const prevNodeOldVal = node.data('prevVal')[len - 1] 
-
-      console.log(node.data('nums'), prevNodeOldVal)
-
-      func(node, edgeTraversed, prevNode, prevNodeOldVal)
+    visit: function(node, edgeTraversed, prevNode){
+      
+      func(node, edgeTraversed, prevNode)
     },
     directed: true
   })
 }
 
-function update(node, edgeTraversed, prevNode, prevNodeOldVal) {
-  const oldVal = node.data('nums')
-  node.data('nums', index > 0 ? oldVal.concat(prevNodeOldVal) : oldVal)
+function update(node, edgeTraversed, prevNode) {
+  node.data('prevVal', node.data('num'))
+  node.data('num', prevNode ? prevNode.data('prevVal') : node.data('num'))
 }
 
 cy.on('tap', 'node', function(evt){
   var node = evt.target;
-  propagateFn(cy, node, node.data('nums'), update)
-});
-function update(node, edgeTraversed, prevNode, prevNodeOldVal) {
-  const oldVal = node.data('nums')
-  node.data('nums', index > 0 ? oldVal.concat(prevNodeOldVal) : oldVal)
-}
-
-cy.on('tap', 'node', function(evt){
-  var node = evt.target;
-  propagateFn(cy, node, node.data('nums'), update)
+  propagateFn(cy, node, 1, update)
 });
