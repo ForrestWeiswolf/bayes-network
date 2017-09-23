@@ -63,6 +63,8 @@ function update(node, edgeTraversed, prevNode) {
   node.data('num', prevNode ? prevNode.data('prevVal') : node.data('num'))
 }
 
+//edit functionality:
+
 let selectedNode;
 
 cy.on('tap', 'node', function (evt) {
@@ -71,25 +73,49 @@ cy.on('tap', 'node', function (evt) {
   extendPanel('#editPanel')
 
   $('#prior').text('Current value: ' + displayProb(selectedNode))
-  $('#editPanel > h3').text(selectedNode.data('id'))
+  $('#nodeName').text('Edit node: ' + selectedNode.data('id'))
 });
 
-$('#edit').click(function (event) {
+$('#edit').click((event) => {
   event.preventDefault();
 
   var newVal = $('#probability').val() / 100
   propagateFn(cy, selectedNode, newVal, update)
-  
+
   retractPanel('#editPanel')
   $('#probability').val('')
 })
+
+//add functionality
+
+$('#addBtn').click(() => {
+  extendPanel('#addPanel')
+})
+
+$('#create').click((event) => {
+  event.preventDefault();
+
+  cy.add({ data: {
+    id: 0 + $('#nodeId').val(),
+    num: 0 + $('#nodeProbability').val() / 100,
+    prevVal: null
+  }})
+
+  retractPanel('#addPanel')
+  $('#nodeId').val('')
+  $('#nodeProbability').val('')  
+})
+
+//utility functions:
 
 function displayProb(ele) {
   return String(ele.data('num') * 100).slice(0, 4) + '%'
 }
 
-function extendPanel(id){
-  $(id).removeClass('hiddenPanel')
+function extendPanel(idOrClass){
+  retractPanel('.panel')
+
+  $(idOrClass).removeClass('hiddenPanel')
   $('#addBtn').addClass('hiddenPanel')
   $('#cyContainer').removeClass('col-md-12')
   $('#cyContainer').addClass('col-md-10')
