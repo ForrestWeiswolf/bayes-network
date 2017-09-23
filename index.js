@@ -21,10 +21,7 @@ var cy = cytoscape({
       selector: 'node',
       style: {
         'background-color': 'mapData(num, 0, 1, black, lightgreen)',
-        'label': (ele) => {
-          var prob = String(ele.data('num') * 100).slice(0, 4)
-          return `${ele.data('id')}: ${prob}%`
-        }
+        'label': (ele) => `${ele.data('id')}: ${displayProb(ele)}`
       }
     },
 
@@ -70,8 +67,15 @@ let selectedNode;
 
 cy.on('tap', 'node', function(evt){
   selectedNode = evt.target;
+
   $('#editPanel').toggleClass('hiddenPanel')  
   $('#cyContainer').toggleClass('col-md-12')    
   $('#cyContainer').toggleClass('col-md-10')      
+
+  $('#prior').text('Current value: ' + displayProb(selectedNode))
   $('#editPanel > h3').text(selectedNode.data('id'))
 });
+
+function displayProb(ele) {
+  return prob = String(ele.data('num') * 100).slice(0, 4) + '%'
+}
