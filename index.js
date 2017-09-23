@@ -44,9 +44,9 @@ var cy = cytoscape({
 });
 
 function propagateFn(cyto, startNode, newVal, func) {
-  // startNode.data('prevVal', startNode.data('num'))
-  // startNode.data('num', newVal)
-  // console.log(startNode.data('prevVal'), startNode.data('num'))
+  startNode.data('prevVal', startNode.data('num'))
+  startNode.data('num', newVal)
+  console.log(startNode.data('prevVal'), startNode.data('num'))
 
   cyto.elements().bfs({
     root: startNode,
@@ -76,6 +76,14 @@ cy.on('tap', 'node', function(evt){
   $('#editPanel > h3').text(selectedNode.data('id'))
 });
 
+$('#edit').click(function(event) {
+  event.preventDefault();
+  var newVal = $('#probability').val() / 100
+  propagateFn(cy, selectedNode, newVal, update)
+  $('#probability').val('')
+  console.log(selectedNode)
+})
+
 function displayProb(ele) {
-  return prob = String(ele.data('num') * 100).slice(0, 4) + '%'
+  return String(ele.data('num') * 100).slice(0, 4) + '%'
 }
