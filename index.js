@@ -2,8 +2,8 @@ let els = []
 for (var i = 1; i < 9; i++) {
   for (var j = 1; j < i; j++) {
     if (i % (j + 1) === 0) {
-      els.push({ 
-        data: { id: String(i) + String(j), source: i, target: j } 
+      els.push({
+        data: { id: String(i) + String(j), source: i, target: j }
       })
     }
   }
@@ -50,8 +50,8 @@ function propagateFn(cyto, startNode, newVal, func) {
 
   cyto.elements().bfs({
     root: startNode,
-    visit: function(node, edgeTraversed, prevNode){
-      
+    visit: function (node, edgeTraversed, prevNode) {
+
       func(node, edgeTraversed, prevNode)
     },
     directed: true
@@ -65,23 +65,26 @@ function update(node, edgeTraversed, prevNode) {
 
 let selectedNode;
 
-cy.on('tap', 'node', function(evt){
+cy.on('tap', 'node', function (evt) {
   selectedNode = evt.target;
 
-  $('#editPanel').toggleClass('hiddenPanel')  
-  $('#cyContainer').toggleClass('col-md-12')    
-  $('#cyContainer').toggleClass('col-md-10')      
+  $('#editPanel').removeClass('hiddenPanel')
+  $('#cyContainer').removeClass('col-md-12')
+  $('#cyContainer').addClass('col-md-10')
 
   $('#prior').text('Current value: ' + displayProb(selectedNode))
   $('#editPanel > h3').text(selectedNode.data('id'))
 });
 
-$('#edit').click(function(event) {
+$('#edit').click(function (event) {
   event.preventDefault();
   var newVal = $('#probability').val() / 100
   propagateFn(cy, selectedNode, newVal, update)
   $('#probability').val('')
-  console.log(selectedNode)
+
+  $('#editPanel').addClass('hiddenPanel')
+  $('#cyContainer').removeClass('col-md-10')
+  $('#cyContainer').addClass('col-md-12')
 })
 
 function displayProb(ele) {
