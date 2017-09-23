@@ -1,0 +1,30 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+#editPanel {
+  /* visibility: hidden; */
+  height: 100%;
+  display: block;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+#cy {
+  width: 100%;
+  height: 100em;
+  /* position: absolute; */
+  top: 0px;
+  right: 0px;
+}
+
+.hiddenPanel {
+  -webkit-transition: 3s;
+  -moz-transition: 3s;
+  -ms-transition: 3s;
+  -o-transition: 3s;
+  transition: 3s;
+  position: absolute;
+  left: -500px;
+}

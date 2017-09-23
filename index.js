@@ -41,7 +41,7 @@ var cy = cytoscape({
   ],
   layout: {
     name: 'circle',
-    rows: 3,
+    fit: true,
     directed: true
   }
 });
@@ -66,7 +66,12 @@ function update(node, edgeTraversed, prevNode) {
   node.data('num', prevNode ? prevNode.data('prevVal') : node.data('num'))
 }
 
+let selectedNode;
+
 cy.on('tap', 'node', function(evt){
-  var node = evt.target;
-  propagateFn(cy, node, 1, update)
+  selectedNode = evt.target;
+  $('#editPanel').toggleClass('hiddenPanel')  
+  $('#cyContainer').toggleClass('col-md-12')    
+  $('#cyContainer').toggleClass('col-md-10')      
+  $('#editPanel > h3').text(selectedNode.data('id'))
 });
