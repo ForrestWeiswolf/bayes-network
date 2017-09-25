@@ -63,14 +63,14 @@ function update(node, edgeTraversed, prevNode) {
   node.data('num', prevNode ? prevNode.data('prevVal') : node.data('num'))
 }
 
-//edit functionality:
+//edit node:
 
 let selectedNode;
 
 cy.on('tap', 'node', function (evt) {
   selectedNode = evt.target;
 
-  extendPanel('#editPanel')
+  extendPanel('#editNodePanel')
 
   $('#prior').text('Current value: ' + displayProb(selectedNode))
   $('#nodeName').text('Edit node: ' + selectedNode.data('id'))
@@ -82,29 +82,52 @@ $('#edit').click((event) => {
   var newVal = $('#probability').val() / 100
   propagateFn(cy, selectedNode, newVal, update)
 
-  retractPanel('#editPanel')
+  retractPanel('#editNodePanel')
   $('#probability').val('')
 })
 
-//add functionality
+//add node:
 
-$('#addBtn').click(() => {
-  extendPanel('#addPanel')
+$('#addNode').click(() => {
+  extendPanel('#addNodePanel')
 })
 
-$('#create').click((event) => {
+$('#createNode').click((event) => {
   event.preventDefault();
 
   cy.add({ data: {
-    id: 0 + $('#nodeId').val(),
-    num: 0 + $('#nodeProbability').val() / 100,
+    id: $('#nodeId').val(),
+    num: $('#nodeProbability').val() / 100,
     prevVal: null
   }})
 
-  retractPanel('#addPanel')
+  retractPanel('#addNodePanel')
   $('#nodeId').val('')
   $('#nodeProbability').val('')  
 })
+
+//add connection:
+
+$('#addConnection').click(() => {
+  extendPanel('#addConnectionPanel')
+})
+
+$('#createConnection').click((event) => {
+  event.preventDefault();
+
+  cy.add({ data: {
+    id: $('#sourceId').val() + $('#targetId').val(),
+    source: $('#sourceId').val(),
+    target: $('#targetId').val(),
+    weight: $('#newConWeight').val() / 100
+  }})
+
+  retractPanel('#addConnectionPanel')
+  $('#sourceId').val('')
+  $('#targetId').val('') 
+  $('#newConWeight').val('') 
+})
+
 
 //utility functions:
 

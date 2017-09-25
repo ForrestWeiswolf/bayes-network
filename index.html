@@ -12,20 +12,40 @@
 </head>
 
 <body>
-  <button id="addBtn" class="btn">New Node</button>
+  <button id="addNode" class="btn">New Node</button>
+  <button id="addConnection" class="btn">New Connection</button>  
   <div class="container">
     <div class="row">
 
-      <div id='addPanel' class='col-md-2 hiddenPanel panel'>
+      <div id='addNodePanel' class='col-md-2 hiddenPanel panel'>
         <h3>Add a new node:</h3>
         <form>
           <input id="nodeId" type="text" name="nodeId" placeholder="Enter node id">            
           <input id="nodeProbability" type="text" name="probability" placeholder="%" maxlength="3">
-          <input id="create" class="btn" type="submit" value="Create node">
+          <input id="createNode" class="btn" type="submit" value="Create node">
         </form>
       </div>
 
-      <div id='editPanel' class='col-md-2 hiddenPanel panel'>
+      <div id='addConnectionPanel' class='col-md-2 hiddenPanel panel'>
+        <h3>Add a new connection:</h3>
+        <form>
+          <input id="sourceId" type="text" name="sourceId" placeholder="Origin node">            
+          <input id="targetId" type="text" name="targetId" placeholder="Destination node">            
+          <input id="newConWeight" type="text" name="newConWeight" placeholder="Connection weight">            
+          <input id="createConnection" class="btn" type="submit" value="Create ">
+        </form>
+      </div>
+
+      <div id='editConnectionPanel' class='col-md-2 hiddenPanel panel'>
+        <h3 id="connectionId">No connection selected</h3>
+        <p id="currentWeight">weight%</p>
+        <form>
+          <input id="weight" type="text" name="weight" placeholder="" maxlength="4">
+          <input id="edit" class="btn" type="submit" value="Enter change">
+        </form>
+      </div>
+
+      <div id='editNodePanel' class='col-md-2 hiddenPanel panel'>
         <h3 id="nodeName">No node selected</h3>
         <p id="prior">--%</p>
         <form>
