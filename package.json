@@ -1,7 +1,7 @@
 {
-  "name": "stackathon",
+  "name": "bayesian-networks",
   "version": "1.0.0",
-  "description": "",
+  "description": "An in-browser tool to display and edit graphs, designed to be used to create Bayesian networks. Made in four days for a hackathon; semi-functional.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
